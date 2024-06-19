@@ -4,11 +4,14 @@ const db = require("../models");
 const User = db.User;
 
 exports.register = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, adminkey } = req.body;
+    const key = "adminkey@123";
 
     try {
-        const user = await User.create({ email, password });
-        res.status(201).json(user);
+        if (adminkey === key) {
+            const user = await User.create({ email, password });
+            res.status(201).json(user);
+        }
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
