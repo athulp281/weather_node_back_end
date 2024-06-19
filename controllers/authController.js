@@ -9,8 +9,12 @@ exports.register = async (req, res) => {
 
     try {
         if (adminkey === key) {
-            const user = await User.create({ email, password });
-            res.status(201).json(user);
+            try {
+                const user = await User.create({ email, password });
+                res.status(201).json(user);
+            } catch (error) {
+                res.status(401).json({ error: "invalid admin key" });
+            }
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
