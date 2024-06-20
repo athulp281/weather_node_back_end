@@ -4,20 +4,18 @@ const db = require("../models");
 const User = db.User;
 
 exports.register = async (req, res) => {
-    const { email, password, adminkey } = req.body;
+    const { email, password, adminkey, name } = req.body;
     const key = "adminkey@123";
 
     try {
         if (adminkey === key) {
-            try {
-                const user = await User.create({ email, password });
-                res.status(201).json(user);
-            } catch (error) {
-                res.status(401).json({ error: "invalid admin key" });
-            }
+            const user = await User.create({ email, password, name });
+            res.status(201).json(user);
+        } else {
+            res.status(401).json({ error: "invalid admin key" });
         }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json({ error: error.errors });
     }
 };
 
@@ -40,8 +38,8 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: "1h",
         });
-
-        res.json({ token });
+        return res.status(200).json({ user: user, token, message: "success" });
+        // res.json({ user: user, token: token });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

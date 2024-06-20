@@ -10,7 +10,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/news", globalNewsRoutes);
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.MYSQL_PORT || 3000;
 
 db.sequelize
     .sync()
