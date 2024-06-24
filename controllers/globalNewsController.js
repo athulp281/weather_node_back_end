@@ -13,6 +13,7 @@ exports.createNews = async (req, res) => {
             description,
             newsImage,
         });
+        console.log(news);
         res.status(201).json(news);
     } catch (error) {
         res.status(400).json({ error: error.message });
