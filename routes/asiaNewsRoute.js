@@ -15,5 +15,6 @@ router.put(
     upload.single("newsImage"),
     asiaNewsController.updateNews
 );
+router.get("/get-all-asia-news", asiaNewsController.getAllAsiaNews);
 router.delete("/delete-asia-news/:id", asiaNewsController.deleteAsiaNews);
 module.exports = router;
